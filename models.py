@@ -17,28 +17,27 @@ class BaseModel(Model):
         database = database
 
 
-class Specie(BaseModel):
-    name = CharField(max_length=30)
-    name_meaning = CharField()
-
-
-class IngenModel(BaseModel):
-    version = FloatField()
-    specie = ForeignKeyField(Specie, backref="models")
-
-
-class Dinosaur(BaseModel):
-    name = CharField(max_length=20)
-    birthday = DateField()
+class User(BaseModel):
+    username = CharField(max_length=20)
+    first_name = CharField(max_length=20)
+    last_name = CharField(max_length=20)
+    email = CharField(max_length=20)
     created_at = DateTimeField(default=datetime.datetime.now)
-    model = ForeignKeyField(IngenModel, backref="dinosaurs")
+
+
+class Publication(BaseModel):
+    title = CharField(max_length=50)
+    body = CharField(max_length=240)
+    created_date = CharField(default=datetime.datetime.now)
+    update_date = CharField(default=datetime.datetime.now)
+    user_created = ForeignKeyField(User, backref="publications")
 
 
 def create_tables():
     with database:
-        database.create_tables([Dinosaur, IngenModel, Specie])
+        database.create_tables([User, Publication])
 
 
 def drop_tables():
     with database:
-        database.drop_tables([Dinosaur, IngenModel, Specie])
+        database.drop_tables([User, Publication])

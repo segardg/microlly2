@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_restful import Resource, fields, marshal_with, Api
+#from flask_restful import Resource, fields, marshal_with, Api
 import click
 import requests
 from functions import get_books
 
-from models import create_tables, drop_tables, Dinosaur, IngenModel, Specie
-from forms import DinosaurForm
+from models import create_tables, drop_tables, User, Publication
+#from forms import DinosaurForm
 
 
 app = Flask(__name__)
-app.secret_key = 'Hello WOrld' # Don't use it !
+"""app.secret_key = 'Hello WOrld' # Don't use it !
 api = Api(app)
 
 @app.route('/books')
@@ -67,7 +67,7 @@ def species():
     species = Specie.select()
     return render_template('species/list.html', species=species)
 
-
+"""
 @app.cli.command()
 def initdb():
     create_tables()
@@ -84,15 +84,16 @@ def dropdb():
 def fakedata():
     from faker import Faker
     fake = Faker()
-    for specie_pk in range(0, 4):
-        specie = Specie.create(name=fake.first_name(), name_meaning=fake.name())
-        for model_pk in range(0, 3):
-            model = IngenModel.create(version=abs(fake.pyfloat(left_digits=1, 
-                                                               right_digits=1)),
-                                      specie=specie)
-            for pk in range(0, 2):
-                Dinosaur.create(
-                    name=fake.first_name(),
-                    birthday=fake.date(),
-                    model=model
-                )
+    for user_ex in range(0, 3):
+        user = User.create(username=fake.last_name(), first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+        for publications_ex in range(0, 3):
+            publication = Publication.create(title = "Titre", body = fake.text(),
+                                      user_created=user)
+
+@app.cli.command()
+def testdb():
+    for dino in User.select():
+        for publi in Publication.select():
+            if publi.user_created == dino:
+                print(dino.username + " " + publi.body)
+
