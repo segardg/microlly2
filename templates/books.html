@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% for sub_books in books | batch(3, None) %}
+<div class="card-deck">
+    {% for book in sub_books %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">{{ book.title }}</h4>
+        </div>
+        <img src="{{ book.cover }}" class="card-img-top" alt="..."  />
+        <div class="card-body">
+            <p class="card-text"><em>Author:</em> {{ book.author }}</p>
+            <p class="card-text"><em>Year:</em> {{ book.year }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<hr />
+{% else %}
+<div class="alert alert-warning">No books !</div>
+<hr />
+{% endfor %}
+</div>
+{% endblock %}
