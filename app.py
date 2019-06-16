@@ -29,39 +29,39 @@ class DinosaurAPI(Resource):
         return [d for d in Dinosaur.select()]
 
 api.add_resource(DinosaurAPI, '/api/dinosaurs/')
-
+"""
 @app.route('/')
-def dinosaurs():
-    dinosaurs = Dinosaur.select()
-    return render_template('dinosaurs/list.html', dinosaurs=dinosaurs)
+def publication():
+    publications = Publication.select()
+    return render_template('publications/list.html', publications=publications)
 
-
+"""
 @app.route('/dinosaurs/<int:id>')
 def dinosaur_detail(id):
     dinosaur = Dinosaur.get(id)
     return render_template('dinosaurs/details.html', dinosaur=dinosaur)
+"""
 
-
-@app.route('/dinosaurs/form/', methods=['GET', 'POST', ])
-@app.route('/dinosaurs/form/<int:id>', methods=['GET', 'POST', ])
-def dinosaur_form(id=None):
+@app.route('/Publication/form/', methods=['GET', 'POST', ])
+@app.route('/Publication/form/<int:id>', methods=['GET', 'POST', ])
+def Publication_form(id=None):
     if id:
-        dinosaur = Dinosaur.get(id)
+        publication = Publication.get(id)
     else:
-        dinosaur = Dinosaur()
+        publication = Publication()
     
     if request.method == 'POST':
-        form = DinosaurForm(request.form, obj=dinosaur) if id else DinosaurForm(request.form)
+        form = PublicationsForm(request.form, obj=publication) if id else PublicationForm(request.form)
         if form.validate():
-            form.populate_obj(dinosaur)
-            dinosaur.save()
-            flash('Your dinosaur has been saved')
-            return redirect(url_for('dinosaurs'))
+            form.populate_obj(publication)
+            publication.save()
+            flash('Your publication has been saved')
+            return redirect(url_for('publications'))
     else:
-        form = DinosaurForm(obj=dinosaur) if id else DinosaurForm()
-    return render_template('dinosaurs/form.html', form=form, dinosaur=dinosaur)
+        form = PublicationForm(obj=publication) if id else PublicationForm()
+    return render_template('publications/form.html', form=form, publication=publication)
 
-
+"""
 @app.route('/species/')
 def species():
     species = Specie.select()
