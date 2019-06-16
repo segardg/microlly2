@@ -8,4 +8,4 @@ from wtforms.validators import Length
                  label='Nom'),
 })"""
 
-PublicationForm= model_form(Publication)
+PublicationForm= model_form(Publication, exclude=('created_date','update_date','user_created',))

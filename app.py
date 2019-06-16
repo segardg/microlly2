@@ -51,7 +51,7 @@ def publications_form(id=None):
         publication = Publication()
     
     if request.method == 'POST':
-        form = PublicationsForm(request.form, obj=publication) if id else PublicationForm(request.form)
+        form = PublicationForm(request.form, obj=publication) if id else PublicationForm(request.form)
         if form.validate():
             form.populate_obj(publication)
             publication.save()
