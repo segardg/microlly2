@@ -5,7 +5,7 @@ import requests
 from functions import get_books
 
 from models import create_tables, drop_tables, User, Publication
-#from forms import DinosaurForm
+from forms import PublicationForm
 
 
 app = Flask(__name__)
@@ -87,7 +87,7 @@ def fakedata():
     for user_ex in range(0, 3):
         user = User.create(username=fake.last_name(), first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
         for publications_ex in range(0, 3):
-            publication = Publication.create(title = "Titre", body = fake.text(),
+            publication = Publication.create(title = "Donatien", body = fake.text(),
                                       user_created=user)
 
 @app.cli.command()

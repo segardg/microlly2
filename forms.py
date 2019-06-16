@@ -1,4 +1,4 @@
-from models import """Dinosaur,""" Publication
+from models import Publication
 from wtfpeewee.orm import model_form
 from wtforms.validators import Length
 
