@@ -6,6 +6,7 @@ from peewee import (
     DateTimeField,
     FloatField,
     ForeignKeyField,
+    TextField
 )
 from fields import DateField
 
@@ -27,7 +28,7 @@ class User(BaseModel):
 
 class Publication(BaseModel):
     title = CharField(max_length=50)
-    body = CharField(max_length=240)
+    body = TextField()
     created_date = CharField(default=datetime.datetime.now)
     update_date = CharField(default=datetime.datetime.now)
     user_created = ForeignKeyField(User, backref="publications")
