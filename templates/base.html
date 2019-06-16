@@ -16,10 +16,10 @@
 <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="{{ url_for('dinosaurs') }}">
+
             <img width="20px" height="20px" src="{{ url_for('static', filename='img/cookie.png') }}" />
             Microlly <sub>0</sub>
-        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,25 +28,10 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('Publication_form') }}">Add</a>
+                            <a class="nav-link" href="{{ url_for('publication') }}">Add</a>
                         </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('books') }}">Books</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('species') }}">Species</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Dinosaurs</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="{{ url_for('dinosaurs') }}">List</a>
-                        <a class="dropdown-item" href="{{ url_for('dinosaur_form') }}">Add</a>
-                    </div>
-                </li>-->
-                <li class= "nav-item">
-                    <a id="deco" class="nav-link" href="{{url_for('registering')}}"><img width="20px" height="20px" src="{{ url_for('static', filename='img/deconnexion.png') }}"/></a>
-                </li>
+
+
             </ul>
         </div>
     </nav>

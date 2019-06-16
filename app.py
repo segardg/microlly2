@@ -35,16 +35,16 @@ def publication():
     publications = Publication.select()
     return render_template('publications/list.html', publications=publications)
 
-"""
-@app.route('/dinosaurs/<int:id>')
-def dinosaur_detail(id):
-    dinosaur = Dinosaur.get(id)
-    return render_template('dinosaurs/details.html', dinosaur=dinosaur)
-"""
+
+@app.route('/publications/<int:id>')
+def publications_detail(id):
+    publication = Publication.get(id)
+    return render_template('publications/details.html', publication=publication)
+
 
 @app.route('/Publication/form/', methods=['GET', 'POST', ])
 @app.route('/Publication/form/<int:id>', methods=['GET', 'POST', ])
-def Publication_form(id=None):
+def publications_form(id=None):
     if id:
         publication = Publication.get(id)
     else:
