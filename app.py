@@ -5,7 +5,7 @@ import requests
 from functions import get_books
 
 from models import create_tables, drop_tables, User, Publication
-from forms import PublicationForm
+from forms import PublicationForm, UserForm
 
 
 app = Flask(__name__)
@@ -40,6 +40,46 @@ def publication():
 def publications_detail(id):
     publication = Publication.get(id)
     return render_template('publications/details.html', publication=publication)
+
+
+@app.route('/User/register/', methods=['GET', 'POST', ])
+@app.route('/User/register/<int:id>', methods=['GET', 'POST', ])
+def users_register(id=None):
+    if id:
+        user = User.get(id)
+    else:
+        user = User()
+    
+    if request.method == 'POST':
+        form = UserForm(request.form, obj=user) if id else UserForm(request.form)
+        if form.validate():
+            form.populate_obj(user)
+            user.save()
+            flash('You have been saved')
+            return redirect(url_for('users'))
+    else:
+        form = UserForm(obj=user) if id else UserForm()
+    return render_template('users/register.html', form=form, user=user)
+
+@app.route('/User/login/', methods=['GET', 'POST', ])
+@app.route('/User/login/<int:id>', methods=['GET', 'POST', ])
+def users_login(id=None):
+    if id:
+        user = User.get(id)
+    else:
+        user = User()
+    
+    if request.method == 'POST':
+        form = UserForm(request.form, obj=user) if id else UserForm(request.form)
+        if form.validate():
+            form.populate_obj(user)
+            user.save()
+            flash('You have been saved')
+            return redirect(url_for('users'))
+    else:
+        form = UserForm(obj=user) if id else UserForm()
+    return render_template('users/login.html', form=form, user=user)
+
 
 
 @app.route('/Publication/form/', methods=['GET', 'POST', ])
@@ -85,7 +125,7 @@ def fakedata():
     from faker import Faker
     fake = Faker()
     for user_ex in range(0, 3):
-        user = User.create(username=fake.last_name(), first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+        user = User.create(username=fake.last_name(), password=fake.password(),first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
         for publications_ex in range(0, 3):
             publication = Publication.create(title = "Donatien", body = fake.text(),
                                       user_created=user)

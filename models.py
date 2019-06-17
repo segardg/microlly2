@@ -20,6 +20,7 @@ class BaseModel(Model):
 
 class User(BaseModel):
     username = CharField(max_length=20)
+    password = CharField()
     first_name = CharField(max_length=20)
     last_name = CharField(max_length=20)
     email = CharField(max_length=20)
