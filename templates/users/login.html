@@ -23,5 +23,8 @@
         </div>
     {% endfor %}
     <button class="btn btn-success" type="submit">Save</button>
+    {% if error %}
+        <label style="color:red">"error login or password"</label>
+    {% endif %}
 </form>
 {% endblock %}

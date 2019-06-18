@@ -27,12 +27,22 @@
 
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarsExampleDefault"> 
             <ul class="navbar-nav ml-auto"> 
+                {% if session['id'] %}
+                    <li>
+                        <h3 style="color:white">{{ session['username'] }}</h3>
+                    </li>
+                {% endif %}
                 <li class="nav-item"> 
                     <a class="nav-link" href="{{ url_for('users_register') }}">Register </a>
                 </li> 
                 <li class="nav-item"> 
                     <a class="nav-link" href="{{ url_for('users_login') }}">Log in</a> 
                 </li>
+                {% if session['id'] %}
+                    <li>
+                        <a class="navbar-brand" href="{{ url_for('logout') }}" style="margin-left: 5px"><img width="20px" height="20px" src="{{ url_for('static', filename='img/deconnexion.png') }}"/></a>
+                    </li>
+                {% endif %}
             </ul> 
         </div> 
     </nav>
