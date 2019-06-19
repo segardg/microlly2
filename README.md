@@ -1,4 +1,4 @@
-## How to ?
+## Comment faire fonctionner Microlly ?
 
 1. `git clone`
 2. `pipenv --python 3`
@@ -15,7 +15,7 @@ La couverture est minimal mais suffisante pour découvrir les T.U et d'intégrat
 Pour les lancer un simple: `pytest tests/ --disable-warnings`
 
 
-## Authors
+## Auteurs
 
 > [Gaëtan SEGARD]
 > [Donatien SEGARD]
