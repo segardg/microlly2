@@ -28,9 +28,12 @@
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarsExampleDefault"> 
             <ul class="navbar-nav ml-auto"> 
                 {% if session['id'] %}
-                    <li>
-                        <h3 style="color:white">{{ session['username'] }}</h3>
-                    </li>
+                <li>
+                    <h3 style="color:white">{{ session['username'] }}</h3>
+                </li>
+                <li class="nav-item"> 
+                    <a class="nav-link" href="{{ url_for('liste_users') }}">Users</a> 
+                </li>
                 {% else %}
                     <li class="nav-item"> 
                         <a class="nav-link" href="{{ url_for('users_register') }}">Register </a>

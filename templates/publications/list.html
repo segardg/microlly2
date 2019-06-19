@@ -5,12 +5,13 @@
     <a class="btn" href="{{ url_for('publications_form') }}"><img width="30px" height="30px" src="{{ url_for('static', filename='img/Add.png') }}"/><h2 style="float:right;font-size:30px;margin-left:5px;" >Add</h2></a>
 </div>
 
-{% for sub_pub in publications | batch(1, None) %}
+{% for sub_pub in object_list | batch(1, None) %}
 <div class="card-deck">
     {% for publication in sub_pub %}
     <div class="card" style="width: 100%">
         <div class="card-header">
             <h4 class="my-0 font-weight-normal">{{ publication.title }}</h4>
+            <a href="{{ url_for('publication2', username=publication.user_created.username) }}">by {{ publication.user_created.username }}</a>
         </div>
         <div class="card-body">
             <a href="{{ url_for('publications_detail', id=publication.id) }}" class="btn btn-primary">See {{ publication.title }} details</a>
@@ -23,9 +24,16 @@
         </div>
     </div>
     {% endfor %}
+
 </div>
 <hr />
 {% endfor %}
+{% if page > 1 %}
+  <a href=".?page={{ page - 1 }}">Prev</a>
+{% endif %}
+{% if pagination.get_page_count() > page  %}
+  <a href=".?page={{ page + 1 }}">Next</a>
+{% endif %}
 </div>
 <script>
     function delete_confirm(el){

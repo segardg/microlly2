@@ -4,6 +4,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 import click
 import requests
 from functions import get_books
+from playhouse.flask_utils import object_list
 
 from models import create_tables, drop_tables, User, Publication
 from forms import PublicationForm, UserForm, LoginForm
@@ -52,12 +53,15 @@ def load_user(user_id):
 @app.route('/<username>') #username plutôt que id parce que c'est mieux de voir le username dans le lien
 @login_required
 def publication(username=None):
-    if username:
-        user=User.select().where(User.username==username).get()
-        publications=user.publications
-    else:
-        publications = Publication.select()
-    return render_template('publications/list.html', publications=publications)
+    publications = Publication.select()
+    return object_list('publications/list.html', publications, paginate_by=2)
+
+@app.route('/Users/<username>/') #username plutôt que id parce que c'est mieux de voir le username dans le lien
+@login_required
+def publication2(username):
+    user=User.select().where(User.username==username).get()
+    publications=Publication.select().where(Publication.user_created==user.id)
+    return object_list('publications/list.html', publications, paginate_by=2)
 
 
 @app.route('/publications/<int:id>')
@@ -133,6 +137,10 @@ def users_login(id=None):
         form = UserForm(obj=user) if id else UserForm()
     return render_template('users/login.html', form=form, user=user)"""
 
+@app.route('/users/list')
+def liste_users():
+    users=User.select()
+    return render_template('users/list.html', users=users)
 
 
 @app.route('/Publication/form/', methods=['GET', 'POST', ])
@@ -198,10 +206,9 @@ def dropdb():
 def fakedata():
     from faker import Faker
     fake = Faker()
-    for user_ex in range(0, 3):
-        user = User.create(username=fake.last_name(), password=fake.password(),first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+    for user in User.select():
         for publications_ex in range(0, 3):
-            publication = Publication.create(title = fake.sentence(), body = fake.text(),
+            Publication.create(title = fake.sentence(), body = fake.text(),
                                       user_created=user)
 
 @app.cli.command()
@@ -216,4 +223,12 @@ def monuser():
     from faker import Faker
     fake = Faker()
     User.create(username='login', password='pass',first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+
+@app.cli.command()
+def test():
+    username="login"
+    user=User.select().where(User.username==username).get()
+    publications= Publication.select().where(Publication.user_created==user.id)
+    for publi in publications :
+        print(publi)
 

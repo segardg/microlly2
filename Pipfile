@@ -13,7 +13,8 @@ faker = "*"
 pytest = "*"
 flask-restful = "*"
 wtf-peewee = "*"
+playhouse = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.7"
- 
