@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 #from flask_restful import Resource, fields, marshal_with, Api
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
 import click
 import requests
 from functions import get_books
@@ -10,6 +11,9 @@ from forms import PublicationForm, UserForm
 
 app = Flask(__name__)
 app.secret_key = 'Hello WOrld' # Don't use it !
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "users_login"
 """
 api = Api(app)
 
@@ -31,13 +35,28 @@ class DinosaurAPI(Resource):
 
 api.add_resource(DinosaurAPI, '/api/dinosaurs/')
 """
+
+# class MaSession(UserMixin):
+
+#     def __init__(self, id):
+#         self.id = id
+        
+#     def __repr__(self):
+#         return "%d" % (self.id)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
 @app.route('/')
+@login_required
 def publication():
     publications = Publication.select()
     return render_template('publications/list.html', publications=publications)
 
 
 @app.route('/publications/<int:id>')
+@login_required
 def publications_detail(id):
     publication = Publication.get(id)
     return render_template('publications/details.html', publication=publication)
@@ -57,6 +76,7 @@ def users_login():
         if request.form['password']==user.password:
             session['id']=user.id
             session['username']=user.username
+            login_user(user)
         else:
             return render_template('users/login.html',form=form, user=user, error=1)
                 
@@ -71,6 +91,7 @@ def users_login():
 
 @app.route('/User/register/', methods=['GET', 'POST', ])
 @app.route('/User/register/<int:id>', methods=['GET', 'POST', ])
+
 def users_register(id=None):
     if id:
         user = User.get(id)
@@ -111,6 +132,7 @@ def users_login(id=None):
 
 @app.route('/Publication/form/', methods=['GET', 'POST', ])
 @app.route('/Publication/form/<int:id>', methods=['GET', 'POST', ])
+@login_required
 def publications_form(id=None):
     if id:
         publication = Publication.get(id)
@@ -130,11 +152,8 @@ def publications_form(id=None):
 
 @app.route('/logout')
 def logout():
-    var=[]
-    for variable in session:
-        var.append(variable)
-    for v in var:
-        session.pop(v,None)
+    session.clear()
+    logout_user()
     return redirect(url_for('publication'))
 
 """

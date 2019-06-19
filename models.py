@@ -1,4 +1,5 @@
 import datetime
+from flask_login import UserMixin
 from peewee import (
     SqliteDatabase, 
     Model,
@@ -18,7 +19,7 @@ class BaseModel(Model):
         database = database
 
 
-class User(BaseModel):
+class User(BaseModel,UserMixin):
     username = CharField(max_length=20)
     password = CharField()
     first_name = CharField(max_length=20)
