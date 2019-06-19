@@ -168,7 +168,8 @@ def testdb():
 def monuser():
     from faker import Faker
     fake = Faker()
-    User.create(username='login', password='pass',first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+    user=User.create(username='login', password='pass',first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+    Publication.create(title = fake.sentence(), body = fake.text(),user_created=user)
 
 @app.cli.command()
 def test():

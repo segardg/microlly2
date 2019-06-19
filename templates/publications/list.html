@@ -14,7 +14,8 @@
             <a href="{{ url_for('publication2', username=publication.user_created.username) }}">by {{ publication.user_created.username }}</a>
         </div>
         <div class="card-body">
-            <a href="{{ url_for('publications_detail', id=publication.id) }}" class="btn btn-primary">See {{ publication.title }} details</a>
+            <p>{{ publication.body }}</p>
+            <a href="{{ url_for('publications_detail', id=publication.id) }}" class="btn btn-primary">See details</a>
             {% if publication.user_created.id==session['id'] %}
                 <a href="{{ url_for('publications_form', id=publication.id) }}" class="btn btn-dark">Edit</a>
                
