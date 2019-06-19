@@ -25,14 +25,14 @@ def load_user(user_id):
 @login_required
 def publication(username=None):
     publications = Publication.select()
-    return object_list('publications/list.html', publications, paginate_by=10)
+    return object_list('publications/list.html', publications, paginate_by=3)
 
 @app.route('/Users/<username>/') 
 @login_required
 def publication2(username):
     user=User.select().where(User.username==username).get()
     publications=Publication.select().where(Publication.user_created==user.id)
-    return object_list('publications/list.html', publications, paginate_by=5)
+    return object_list('publications/list.html', publications, paginate_by=3)
 
 
 @app.route('/publications/<int:id>')
