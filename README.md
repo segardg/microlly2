@@ -1,6 +1,3 @@
-# ![](static/img/cookie.png) Cookie
-
-
 ## How to ?
 
 1. `git clone`
@@ -17,9 +14,6 @@ La couverture est minimal mais suffisante pour découvrir les T.U et d'intégrat
 
 Pour les lancer un simple: `pytest tests/ --disable-warnings`
 
-## Purpose
-
-This project is only for educational purpose. It's actually a basic application for generating a dummy website.
 
 ## Authors
 

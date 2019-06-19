@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
-#from flask_restful import Resource, fields, marshal_with, Api
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
-import click
 import requests
+import click
 from functions import get_books
 from playhouse.flask_utils import object_list
 
@@ -11,39 +10,11 @@ from forms import PublicationForm, UserForm, LoginForm
 
 
 app = Flask(__name__)
-app.secret_key = 'Hello WOrld' # Don't use it !
+app.secret_key = 'a6f8h2d971jk' 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "users_login"
-"""
-api = Api(app)
 
-@app.route('/books')
-def books():
-    books = get_books()
-    return render_template('books.html', books=books)
-
-
-dinosaur_fields = {
-    'name': fields.String,
-    'birthday': fields.String,
-}
-
-class DinosaurAPI(Resource):
-    @marshal_with(dinosaur_fields)
-    def get(self):
-        return [d for d in Dinosaur.select()]
-
-api.add_resource(DinosaurAPI, '/api/dinosaurs/')
-"""
-
-# class MaSession(UserMixin):
-
-#     def __init__(self, id):
-#         self.id = id
-        
-#     def __repr__(self):
-#         return "%d" % (self.id)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -54,14 +25,14 @@ def load_user(user_id):
 @login_required
 def publication(username=None):
     publications = Publication.select()
-    return object_list('publications/list.html', publications, paginate_by=2)
+    return object_list('publications/list.html', publications, paginate_by=10)
 
-@app.route('/Users/<username>/') #username plutôt que id parce que c'est mieux de voir le username dans le lien
+@app.route('/Users/<username>/') 
 @login_required
 def publication2(username):
     user=User.select().where(User.username==username).get()
     publications=Publication.select().where(Publication.user_created==user.id)
-    return object_list('publications/list.html', publications, paginate_by=2)
+    return object_list('publications/list.html', publications, paginate_by=5)
 
 
 @app.route('/publications/<int:id>')
@@ -118,25 +89,6 @@ def users_register(id=None):
         form = UserForm(obj=user) if id else UserForm()
     return render_template('users/register.html', form=form, user=user)
 
-"""@app.route('/User/login/', methods=['GET', 'POST', ])
-@app.route('/User/login/<int:id>', methods=['GET', 'POST', ])
-def users_login(id=None):
-    if id:
-        user = User.get(id)
-    else:
-        user = User()
-    
-    if request.method == 'POST':
-        form = UserForm(request.form, obj=user) if id else UserForm(request.form)
-        if form.validate():
-            form.populate_obj(user)
-            user.save()
-            flash('You have been saved')
-            return redirect(url_for('users'))
-    else:
-        form = UserForm(obj=user) if id else UserForm()
-    return render_template('users/login.html', form=form, user=user)"""
-
 @app.route('/users/list')
 def liste_users():
     users=User.select()
@@ -183,13 +135,6 @@ def logout():
     logout_user()
     return redirect(url_for('publication'))
 
-"""
-@app.route('/species/')
-def species():
-    species = Specie.select()
-    return render_template('species/list.html', species=species)
-
-"""
 @app.cli.command()
 def initdb():
     create_tables()
@@ -206,16 +151,17 @@ def dropdb():
 def fakedata():
     from faker import Faker
     fake = Faker()
-    for user in User.select():
-        for publications_ex in range(0, 3):
+    for user_ex in range(0, 5):
+        user = User.create(username=fake.last_name(), password=fake.password(),first_name = fake.first_name(), last_name=fake.last_name(), email = fake.email())
+        for publications_ex in range(0, 10):
             Publication.create(title = fake.sentence(), body = fake.text(),
                                       user_created=user)
 
 @app.cli.command()
 def testdb():
-    for dino in User.select():
+    for user in User.select():
         for publi in Publication.select():
-            if publi.user_created == dino:
+            if publi.user_created == user:
                 print(publi.user_created.id)
 
 @app.cli.command()

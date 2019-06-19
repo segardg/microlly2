@@ -29,10 +29,10 @@
 <hr />
 {% endfor %}
 {% if page > 1 %}
-  <a href=".?page={{ page - 1 }}">Prev</a>
+  <a href=".?page={{ page - 1 }}"  class="btn btn-primary" class="btn btn-dark">Prev</a>
 {% endif %}
 {% if pagination.get_page_count() > page  %}
-  <a href=".?page={{ page + 1 }}">Next</a>
+  <a href=".?page={{ page + 1 }}" style="float:right;" class="btn btn-dark" >Next</a>
 {% endif %}
 </div>
 <script>

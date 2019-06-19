@@ -9,7 +9,6 @@ from peewee import (
     ForeignKeyField,
     TextField
 )
-from fields import DateField
 
 database = SqliteDatabase('data.sqlite3')
 
