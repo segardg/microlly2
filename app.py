@@ -6,7 +6,7 @@ import requests
 from functions import get_books
 
 from models import create_tables, drop_tables, User, Publication
-from forms import PublicationForm, UserForm
+from forms import PublicationForm, UserForm, LoginForm
 
 
 app = Flask(__name__)
@@ -70,7 +70,7 @@ def publications_detail(id):
 @app.route('/User/login/<int:id>',methods=['GET','POST', ])
 def users_login():
     user=User()
-    form=UserForm()
+    form=LoginForm()
     if request.method== 'POST':
         try:
             user=User.select().where(User.username==request.form['username']).get()
@@ -109,7 +109,7 @@ def users_register(id=None):
             form.populate_obj(user)
             user.save()
             flash('You have been saved')
-            return redirect(url_for('users'))
+            return redirect(url_for('users_login'))
     else:
         form = UserForm(obj=user) if id else UserForm()
     return render_template('users/register.html', form=form, user=user)
