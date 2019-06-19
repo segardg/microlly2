@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
 import requests
 import click
-from functions import get_books
 from playhouse.flask_utils import object_list
 
 from models import create_tables, drop_tables, User, Publication
