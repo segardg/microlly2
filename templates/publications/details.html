@@ -1,16 +1,17 @@
-<!--{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block body %}
 
-<div class="card">
+<div class="card" >
     <div class="card-header">
-        <h4 class="my-0 font-weight-normal">{{ dinosaur.name }}</h4>
+        <h4 class="my-0 font-weight-normal">{{ publication.title }}</h4>
     </div>
     <div class="card-body">
-        <p class="card-text"><em>Birthday:</em> {{ dinosaur.birthday.strftime('%d/%m/%Y') }}</p>
-        <p class="card-text"><em>Created at:</em> {{ dinosaur.created_at.strftime('%d/%m/%Y') }}</p>
-        <p class="card-text"><em>Model:</em> {{ dinosaur.model.version }}</p>
-        <p class="card-text"><em>Specie:</em> {{ dinosaur.model.specie.name }} ({{ dinosaur.model.specie.name_meaning }})</p>
+        <p class="card-text">
+            <em>Created at:</em> {{ publication.created_date }}
+            <em>By:</em><a href="{{ url_for('publication', username=publication.user_created.username) }}"> {{publication.user_created.username}}</a>
+        </p>
+        <p class="card-text"><em>Contenu:</em> {{ publication.body }}</p>
     </div>
 </div>
-{% endblock %}-->
+{% endblock %}

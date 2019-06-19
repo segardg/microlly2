@@ -49,9 +49,14 @@ def load_user(user_id):
     return User.get(user_id)
 
 @app.route('/')
+@app.route('/<username>') #username plutôt que id parce que c'est mieux de voir le username dans le lien
 @login_required
-def publication():
-    publications = Publication.select()
+def publication(username=None):
+    if username:
+        user=User.select().where(User.username==username).get()
+        publications=user.publications
+    else:
+        publications = Publication.select()
     return render_template('publications/list.html', publications=publications)
 
 
@@ -138,6 +143,7 @@ def publications_form(id=None):
         publication = Publication.get(id)
     else:
         publication = Publication()
+        publication.user_created=session["id"]
     
     if request.method == 'POST':
         form = PublicationForm(request.form, obj=publication) if id else PublicationForm(request.form)
@@ -149,6 +155,19 @@ def publications_form(id=None):
     else:
         form = PublicationForm(obj=publication) if id else PublicationForm()
     return render_template('publications/form.html', form=form, publication=publication)
+
+@app.route('/Publication/delete/<int:id>')
+def publication_delete(id=None):
+    if id:
+        try:
+            publication=Publication.get(id)
+        except:
+            flash("error")
+            return redirect(url_for('publication'))
+        publication.delete_instance()
+        flash("success")
+    return redirect(url_for('publication'))
+
 
 @app.route('/logout')
 def logout():
@@ -190,7 +209,7 @@ def testdb():
     for dino in User.select():
         for publi in Publication.select():
             if publi.user_created == dino:
-                print(dino.username + " " + publi.body)
+                print(publi.user_created.id)
 
 @app.cli.command()
 def monuser():
