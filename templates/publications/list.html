@@ -6,6 +6,7 @@
         <div class="row justify-content-md-center">
             <a id="Add" class="btn" href="{{ url_for('publications_form') }}"><img width="30px" height="30px" src="{{ url_for('static', filename='img/Add.png') }}"/><h2 style="float:right;font-size:30px;margin-left:5px;" >Add publication</h2></a>
       </div>
+      <hr>
     {% endif %}
 
 
@@ -23,7 +24,7 @@
                         {% if publication.user_created.id==session['id'] %}
                             <a href="{{ url_for('publications_form', id=publication.id) }}" class="btn btn-dark">Edit</a>
                 
-                            <a id="{{ publication.id }}" style="float:right;" onclick="delete_confirm(this)"><img width=30px height=30px src="{{ url_for('static', filename='img/poubelle.png') }}"/></a>
+                            <a id="{{ publication.id }}" style="float:right;" onclick="delete_confirm(this)"><img class="delete" width=30px height=30px src="{{ url_for('static', filename='img/poubelle.png') }}"/></a>
                     
                         {% endif %}
                     </div>

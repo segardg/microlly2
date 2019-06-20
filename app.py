@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import click
 from playhouse.flask_utils import object_list
@@ -60,7 +61,7 @@ def users_login():
             return render_template('users/login.html',form=form, user=user, error=1)
         
             
-        if request.form['password']==user.password:
+        if check_password_hash(user.password, request.form['password']):
             session['id']=user.id
             session['username']=user.username
             login_user(user)
@@ -89,6 +90,7 @@ def users_register(id=None):
         form = UserForm(request.form, obj=user) if id else UserForm(request.form)
         if form.validate():
             form.populate_obj(user)
+            user.password=generate_password_hash(user.password)
             user.save()
             flash('You have been saved')
             return redirect(url_for('users_login'))

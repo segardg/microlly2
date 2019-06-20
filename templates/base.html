@@ -45,14 +45,13 @@
                 {% endif %}
                 {% if session['id'] %}
                     <li>
-                        <a class="navbar-brand" href="{{ url_for('logout') }}" style="margin-left: 5px"><img width="20px" height="20px" src="{{ url_for('static', filename='img/deconnexion.png') }}"/></a>
+                        <a class="navbar-brand delete" href="{{ url_for('logout') }}" style="margin-left: 5px"><img width="20px" height="20px" src="{{ url_for('static', filename='img/deconnexion.png') }}"/></a>
                     </li>
                 {% endif %}
             </ul> 
         </div> 
     </nav>
     <div class="container-fluid">
-      <hr>
     </div>
 
     <main role="main" class="container ">

@@ -5,3 +5,7 @@
     border-color: rgb(175, 193, 221);
 
 }
+.delete:hover{
+    width: 35px;
+    height: 35px;
+}
