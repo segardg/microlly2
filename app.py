@@ -20,18 +20,26 @@ def load_user(user_id):
     return User.get(user_id)
 
 @app.route('/')
-@app.route('/<username>') #username plutôt que id parce que c'est mieux de voir le username dans le lien
+@app.route('/Publications')
+@app.route('/Users/<username>/') #username plutôt que id parce que c'est mieux de voir le username dans le lien
 @login_required
 def publication(username=None):
-    publications = Publication.select()
-    return object_list('publications/list.html', publications, paginate_by=3)
+    if username:                          #si on lui passe un username en param
+        user=User.select().where(User.username==username).get() #on sélectionne le user
+        publications=Publication.select().where(Publication.user_created==user.id).order_by(Publication.created_date.desc()) #on prend la liste de ses publi
+    else:                                  # si on lui passe pas de username
+        publications = Publication.select().order_by(Publication.created_date.desc())  #on prend la liste de toutes les publi
+    if publications.count()==0:
+        flash("Aucune publication trouvée")
+    return object_list('publications/list.html', publications, paginate_by=3,check_bounds=False)
 
-@app.route('/Users/<username>/') 
-@login_required
-def publication2(username):
-    user=User.select().where(User.username==username).get()
-    publications=Publication.select().where(Publication.user_created==user.id)
-    return object_list('publications/list.html', publications, paginate_by=3)
+
+# @app.route('/Users/<username>/') 
+# @login_required
+# def publication2(username):
+#     user=User.select().where(User.username==username).get()
+#     publications=Publication.select().where(Publication.user_created==user.id)
+#     return object_list('publications/list.html', publications, paginate_by=3)
 
 
 @app.route('/publications/<int:id>')
