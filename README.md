@@ -3,12 +3,12 @@
 1. `git clone`
 2. `pipenv --python 3`
 3. `pipenv install`
-4. `pipenv install flask_login`
-5.  `flask run`
+4. `flask run`
 6. Et go sur [127.0.0.1:5000](http://127.0.0.1:5000)
 
 Une page sur le login va s'ouvrir.
-Pour vous enregister, cliquez sur Register et renseignez tous les champs.
+Cliquez sur Register et renseignez tous les champs.
+Loggez-vous.
 Ensuite vous pourrez voir les publications de tous les utilisateurs.
 Pour voir les publictions d'un seul utilisateur, vous pouvez soit cliquer sur son nom sur la publication, soit aller dans Users pour voir les différents Users existants et leurs publications.
 
